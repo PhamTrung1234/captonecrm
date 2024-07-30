@@ -31,17 +31,21 @@ public class AuthenticationFilter implements Filter{
 		}
 		String path = req.getServletPath();
 		String context = req.getContextPath();
-		if(path.equals("/login")){
-			if(isValid) {
+		
+		
+		if(path.equalsIgnoreCase("/login")) {
+            if(!isValid) {
+				
 				chain.doFilter(request, response);
+				
 			}else {
-				reqs.sendRedirect(context+ EnumUrlParam.ADD_USER.getEndpoint());
+				reqs.sendRedirect(context+EnumUrlParam.ADD_USER.getEndpoint());
 			}
 		}else {
 			if (isValid) {
-				reqs.sendRedirect(context+ EnumUrlParam.ADD_USER.getEndpoint());
-			}else {
 				chain.doFilter(request, response);
+			}else {
+				reqs.sendRedirect(context+"/login");
 			}
 		}
 	}
