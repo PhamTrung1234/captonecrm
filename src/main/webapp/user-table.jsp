@@ -79,7 +79,7 @@
 								<li><a href="profile.html">Thông tin cá nhân</a></li>
 								<li><a href="#">Thống kê công việc</a></li>
 								<li class="divider"></li>
-								<li><a href="#">Đăng xuất</a></li>
+								<li><a href="log-out">Đăng xuất</a></li>
 							</ul>
 						</div>
 					</li>
@@ -111,7 +111,7 @@
 					<li><a href="blank.html" class="waves-effect"><i
 							class="fa fa-columns fa-fw" aria-hidden="true"></i><span
 							class="hide-menu">Blank Page</span></a></li>
-					<li><a href="404.html" class="waves-effect"><i
+					<li><a href="<%= context+EnumUrlParam.ERROR.getEndpoint() %>" class="waves-effect"><i
 							class="fa fa-info-circle fa-fw" aria-hidden="true"></i><span
 							class="hide-menu">Error 404</span></a></li>
 				</ul>
@@ -157,8 +157,8 @@
 												<td>${i.role.name }</td>
 												<td><a href="<%=context+EnumUrlParam.UPDATE_USER.getEndpoint() %>?id=${i.id }" 
 													class="btn btn-sm btn-primary">Sửa</a>
-													<button onclick="delete_user(${i.id})"
-														class="btn btn-sm btn-danger">Xóa</button> <a
+													<a onclick="delete_user(${i.id})"
+														class="btn btn-sm btn-danger">Xóa</a> <a
 													href="<%=context+EnumUrlParam.USER_DETAIL.getEndpoint() %>?id=${i.id }" class="btn btn-sm btn-info">Xem</a>
 												</td>
 											</tr>

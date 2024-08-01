@@ -18,7 +18,11 @@ public enum EnumUrlParam {
 	 DELETE_USER("/api-delete-user"),
 	 DELETE_PROJECT("/delete-project"),
 	 DELETE_TASK("/delete-task"),
-	 DELETE_ROLE("/delete-roles");
+	 DELETE_ROLE("/delete-roles"),
+	 ERROR("/error-403"),
+	 LOGIN("/login"),
+	 PROJECTBYID("/project-id");
+	
     private String endpoint;
 
     EnumUrlParam(String endpoint) {

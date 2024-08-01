@@ -3,10 +3,12 @@ package crm.controller;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,9 +47,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 		addTask(req, resp);
 		break;
 	case TASK:
-		List<TaskDTO> listTasks= taskService.getAllTask();
-		req.setAttribute("listtask", listTasks);
-		req.getRequestDispatcher("task.jsp").forward(req, resp);
+		showListTask(req, resp);
 		break;
 	case UPDATE_TASK:
 		updateTask(req, resp);
@@ -56,11 +56,60 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 		break;
 	}
 }
+   public void showListTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	  
+	   int id = 0;
+	  String roles = "";
+	  Cookie[] cookies = req.getCookies();
+	  List<TaskDTO> listTasks= taskService.getAllTask();
+	  for (Cookie cookie : cookies) {
+		if(cookie.getName().equals("role")) {
+			roles = cookie.getValue();
+		}
+		if(cookie.getName().equals("id")) {
+			id = Integer.parseInt(cookie.getValue());
+		}
+	}
+	   switch (roles) {
+	case "LEADER":
+		List<Integer> listIdProjectByIdLeader = projectService.getProjectByIdLeader(72);
+		List<TaskDTO> listTaskByLeader = new ArrayList<TaskDTO>();
+		
+		for (Integer integer : listIdProjectByIdLeader) {
+			for (TaskDTO tasks : listTasks) {
+				if(tasks.idProject()==integer) {
+					listTaskByLeader.add(tasks);
+				}
+			}
+		}
+		req.setAttribute("listtask", listTaskByLeader);
+		break;
+
+	default:
+		req.setAttribute("listtask", listTasks);
+		break;
+	}
+	   
+		
+		
+		req.getRequestDispatcher("task.jsp").forward(req, resp);
+}
+   
    public void addTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	   List<ProjectDTO> listProject = projectService.getListProject();
 	   List<UserEntity> listUser = userService.getListUser();
+	   List<UserEntity> listMember = new ArrayList<UserEntity>();
+	   
+	   for (UserEntity userEntity : listUser) {
+		  
+		if(userEntity.getRole().getName().equals("USER")) {
+			
+			listMember.add(userEntity);
+		}
+	   }
+	   
 	   req.setAttribute("listproject", listProject);
-	   req.setAttribute("listuser", listUser);
+	   req.setAttribute("listuser", listMember);
 	   req.getRequestDispatcher("task-add.jsp").forward(req, resp);
 }
    public void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

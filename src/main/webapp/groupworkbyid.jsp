@@ -1,10 +1,10 @@
 <%@page import="crm.enumurl.EnumUrlParam"%>
-<%@page import="crm.entity.RoleEntity"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
-<%String context = request.getContextPath(); %>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,12 +17,14 @@
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Menu CSS -->
     <link href="plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <!-- animation CSS -->
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
     <!-- color CSS -->
     <link href="css/colors/blue-dark.css" id="theme" rel="stylesheet">
+    <link rel="stylesheet" href="./css/custom.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -30,9 +32,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<% RoleEntity currentRoles = (RoleEntity)request.getAttribute("roles"); %>
-
-
+<% String context = request.getContextPath(); %>
 <body>
     <!-- Preloader -->
     <div class="preloader">
@@ -95,19 +95,19 @@
                                 aria-hidden="true"></i><span class="hide-menu">Dashboard</span></a>
                     </li>
                     <li>
-                        <a href="<%=context+EnumUrlParam.USER.getEndpoint() %>" class="waves-effect"><i class="fa fa-user fa-fw"
+                        <a href=<%=context+ EnumUrlParam.USER.getEndpoint() %>class="waves-effect"><i class="fa fa-user fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Thành viên</span></a>
                     </li>
                     <li>
-                        <a href="<%=context+EnumUrlParam.ROLE.getEndpoint() %>" class="waves-effect"><i class="fa fa-modx fa-fw"
+                        <a href=<%=context+ EnumUrlParam.ROLE.getEndpoint() %> class="waves-effect"><i class="fa fa-modx fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Quyền</span></a>
                     </li>
                     <li>
-                        <a href="<%=context+EnumUrlParam.PROJECT.getEndpoint() %>" class="waves-effect"><i class="fa fa-table fa-fw"
+                        <a href=<%=context+ EnumUrlParam.PROJECT.getEndpoint() %> class="waves-effect"><i class="fa fa-table fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Dự án</span></a>
                     </li>
                     <li>
-                        <a href="<%=context+EnumUrlParam.TASK.getEndpoint() %>" class="waves-effect"><i class="fa fa-table fa-fw"
+                        <a href=<%=context+ EnumUrlParam.TASK.getEndpoint() %> class="waves-effect"><i class="fa fa-table fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Công việc</span></a>
                     </li>
                     <li>
@@ -127,45 +127,51 @@
             <div class="container-fluid">
                 <div class="row bg-title">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Thêm mới quyền</h4>
+                        <h4 class="page-title">Danh sách dự án</h4>
                     </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 text-right">
+                        <a href="<%= context+ EnumUrlParam.ADD_PROJECT.getEndpoint() %>" class="btn btn-sm btn-success">Thêm mới</a>
+                    </div>
+                    <!-- /.col-lg-12 -->
                 </div>
-                <!-- /.row -->
-                <!-- .row -->
+                <!-- /row -->
                 <div class="row">
-                    <div class="col-md-2 col-12"></div>
-                    <div class="col-md-8 col-xs-12">
+                    <div class="col-sm-12">
                         <div class="white-box">
-                            <form class="form-horizontal form-material" action="<%=context+EnumUrlParam.UPDATE_ROLE.getEndpoint() %>?id=<%=currentRoles.getId() %>" method="post">
-                                <div class="form-group">
-                                    <label class="col-md-12">Tên quyền</label>
-                                    <div class="col-md-12">
-                                        <input type="text" placeholder="Tên quyền"
-                                            class="form-control form-control-line" id="rolename" name="name"
-                                            value="<%=currentRoles.getName() %>"
-                                            />
-                                           
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Mô tả</label>
-                                    <div class="col-md-12">
-                                        <input type="text" placeholder="Mô tả" class="form-control form-control-line" 
-                                        value="<%= currentRoles.getDescription() %>"
-                                        name="desr"/>
+                            <div class="table-responsive">
+                                <table class="table" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên Dự Án</th>
+                                            <th>Ngày Bắt Đầu</th>
+                                            <th>Ngày Kết Thúc</th>
+                                            <th>Hành Động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     
+                                       <c:forEach var="i" items="${listproject }" varStatus="loop">
+                                        <tr id="tr_${i.id() }">
+                                            <td>${loop.count }</td>
+                                            <td>${i.name() }</td>
+                                            <td>${i.startTime() }</td>
+                                            <td>${i.endTime() }</td>
+                                            <td>
+                                                <a href="<%=context+ EnumUrlParam.UPDATE_PROJECT.getEndpoint() %>?id=${i.id() }"  class="btn btn-sm btn-primary">Sửa</a>
+                                                <button onclick="deleteproject(${i.id()})" class="btn btn-sm btn-danger">Xóa</button>
+                                                <a href="<%=context+ EnumUrlParam.PROJECT_DETAIL.getEndpoint() %>?id=${i.id() }" class="btn btn-sm btn-info">Xem</a>
+                                            </td>
+                                        </tr>
+                                          
+                                       </c:forEach>
                                         
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button type="submit" id="formRoleAdd" class="btn btn-success">Update Role</button>
-                                        <a href="<%=context+EnumUrlParam.ROLE.getEndpoint() %>" class="btn btn-primary">Quay lại</a>
-                                    </div>
-                                </div>
-                            </form>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-12"></div>
                 </div>
                 <!-- /.row -->
             </div>
@@ -183,12 +189,35 @@
     <script src="plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
     <!--slimscroll JavaScript -->
     <script src="js/jquery.slimscroll.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <!--Wave Effects -->
     <script src="js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="js/custom.min.js"></script>
-    
-    
+    <script
+		src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+        const deleteproject=(id)=>{
+        	const promise = axios({
+        		url:"delete-project?id="+id,
+                method:"GET"
+        	})
+        	promise
+        	  .then(()=>{
+        		  alert('xóa thành công')
+        		  location.reload();
+        		  
+        	  })
+        	  .catch(()=>{
+        		  alert('xóa không thành công')
+        	  })
+        }
+       
+    </script>
 </body>
 
 </html>

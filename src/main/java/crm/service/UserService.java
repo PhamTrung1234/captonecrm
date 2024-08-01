@@ -3,6 +3,7 @@ package crm.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import crm.dto.LeaderDTO;
 import crm.dto.UserTaskDTO;
 import crm.entity.UserDetail;
 import crm.entity.UserEntity;
@@ -76,5 +77,17 @@ public class UserService implements UserServiceImp{
 				}
 			}
 			return found;
+		}
+		@Override
+		public List<LeaderDTO> listLeader() {
+			List<UserEntity> listUser = userRepository.getListUser();
+			List<LeaderDTO> listLeader = new ArrayList<LeaderDTO>();
+			for (UserEntity userEntity : listUser) {
+				if(userEntity.getRole().getName().equals("LEADER")) {
+					LeaderDTO leader = new LeaderDTO(userEntity.getId(), userEntity.getFirst_name()+" "+userEntity.getLast_name());
+					listLeader.add(leader);
+				}
+			}
+			return listLeader;
 		}
 }

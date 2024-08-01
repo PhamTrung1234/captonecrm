@@ -7,7 +7,7 @@ public class ProjectEntity {
        private String name ;
        private java.sql.Timestamp firstTime;
        private java.sql.Timestamp lastTime;
-	
+	   private UserEntity users;
 	public int getId() {
 		return id;
 	}
@@ -31,6 +31,14 @@ public class ProjectEntity {
 	}
 	public void setLastTime(java.sql.Timestamp lastTime) {
 		this.lastTime = lastTime;
+	}
+	
+	
+	public UserEntity getUsers() {
+		return users;
+	}
+	public void setUsers(UserEntity users) {
+		this.users = users;
 	}
 	@Override
 	public String toString() {

@@ -76,14 +76,14 @@ public class TaskRepository {
 	}
 	   
 	public List<TaskDTO> getAllTask() {
-		String sql = "SELECT t.id, u.first_name ,u.last_name ,t.name ,p.name nameproject,s.name namestatus,t.start_date ,t.end_date FROM task t join project p on p.id =t.id_project JOIN users u on u.id =t.id_user JOIN status s on t.id_status =s.id ";
+		String sql = "SELECT t.id,p.id idproject, u.first_name ,u.last_name ,t.name ,p.name nameproject,s.name namestatus,t.start_date ,t.end_date FROM task t join project p on p.id =t.id_project JOIN users u on u.id =t.id_user JOIN status s on t.id_status =s.id ";
 		List<TaskDTO> listTaskDTOs= new ArrayList<TaskDTO>();
 		try {
 			Connection connection = MySqlConfig.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rSet = ps.executeQuery();
 			while(rSet.next()) {
-				TaskDTO tasks = new TaskDTO(rSet.getInt("id")
+				TaskDTO tasks = new TaskDTO(rSet.getInt("id"),rSet.getInt("idproject")
 						,rSet.getString("first_name")+" "+rSet.getString("last_name"),
 						rSet.getString("nameproject"), rSet.getString("namestatus"),
 						rSet.getString("name")

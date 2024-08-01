@@ -78,7 +78,7 @@
 								<li><a href="profile.html">Thông tin cá nhân</a></li>
 								<li><a href="#">Thống kê công việc</a></li>
 								<li class="divider"></li>
-								<li><a href="#">Đăng xuất</a></li>
+								<li><a href="log-out">Đăng xuất</a></li>
 							</ul>
 						</div>
 					</li>
@@ -110,7 +110,7 @@
 					<li><a href="blank.html" class="waves-effect"><i
 							class="fa fa-columns fa-fw" aria-hidden="true"></i><span
 							class="hide-menu">Blank Page</span></a></li>
-					<li><a href="404.html" class="waves-effect"><i
+					<li><a href="<%= context+EnumUrlParam.ERROR.getEndpoint() %>" class="waves-effect"><i
 							class="fa fa-info-circle fa-fw" aria-hidden="true"></i><span
 							class="hide-menu">Error 404</span></a></li>
 				</ul>
@@ -173,19 +173,7 @@
 										<p style="color: red;" id="phonenumbertxt"></p>
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-12">Select Role</label>
-									<div class="col-sm-12">
-										<select class="form-control form-control-line" name="role"
-											id="role">
-											<c:forEach var="i" items="${listRoles }">
-												<option value=${i.id }>${i.name }</option>
-
-											</c:forEach>
-										</select>
-										<p style="color: red;" id="roletxt"></p>
-									</div>
-								</div>
+								
 								<div class="form-group">
 									<div class="col-sm-12">
 										<button type="submit" id="addUser" class="btn btn-success">Add

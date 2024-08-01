@@ -1,6 +1,7 @@
 <%@page import="crm.enumurl.EnumUrlParam"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,7 +74,7 @@
                                     <li><a href="profile.html">Thông tin cá nhân</a></li>
                                     <li><a href="#">Thống kê công việc</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#">Đăng xuất</a></li>
+                                    <li><a href="log-out">Đăng xuất</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -112,7 +113,7 @@
                                 aria-hidden="true"></i><span class="hide-menu">Blank Page</span></a>
                     </li>
                     <li>
-                        <a href="404.html" class="waves-effect"><i class="fa fa-info-circle fa-fw"
+                        <a href="<%= context+EnumUrlParam.ERROR.getEndpoint() %>" class="waves-effect"><i class="fa fa-info-circle fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Error 404</span></a>
                     </li>
                 </ul>
@@ -151,6 +152,16 @@
                                     <div class="col-md-12">
                                         <input type="text" placeholder="dd/MM/yyyy"
                                             class="form-control form-control-line" name="end-time"> </div>
+                                </div>
+                               <div class="form-group">
+                                    <label class="col-md-12">Người quản lý</label>
+                                    <div class="col-md-12">
+                                        <select class="form-control form-control-line" name="idUser">
+                                            <c:forEach var="i" items="${listleader }">
+                                            <option value="${i.id() }" >${i.name() }</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-12">

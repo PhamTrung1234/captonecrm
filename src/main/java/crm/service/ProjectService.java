@@ -54,5 +54,9 @@ public class ProjectService implements ProjectServiceImp{
 		}
 		return listTaskByStatus;
 	}
+	@Override
+	public List<Integer> getProjectByIdLeader(int id) {
+		return pRepository.getProjectByIdLeader(id);
+	}
 
 }

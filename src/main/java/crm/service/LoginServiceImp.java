@@ -1,5 +1,7 @@
 package crm.service;
 
+import crm.dto.LoginDTO;
+
 public interface LoginServiceImp {
-	 boolean checkLogIn(String email,String password);
+	 LoginDTO checkLogIn(String email,String password);
 }

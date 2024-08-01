@@ -1,11 +1,12 @@
 package crm.controller;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,9 +36,7 @@ public class UserController extends HttpServlet{
 			addUser(req, resp);
 			break;
         case USER:
-        	List<UserEntity> listUsers = userService.getListUser();
-        	req.setAttribute("listuser", listUsers);
-        	req.getRequestDispatcher("user-table.jsp").forward(req, resp);
+        	showListUser(req, resp);
         	break;
         case UPDATE_USER:
         	updateUser(req, resp);
@@ -52,6 +51,42 @@ public class UserController extends HttpServlet{
     
     	
     }
+    public void showListUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	int id =0;
+    	String roles = "";
+    	Cookie[] cookies = req.getCookies();
+    	for (Cookie cookie : cookies) {
+			if(cookie.getName().equals("role")) {
+				roles = cookie.getValue();
+			}
+			if(cookie.getName().equals("id")) {
+				id = Integer.parseInt(cookie.getValue());
+			}
+		}
+    	
+      	List<UserEntity> listUsers = userService.getListUser();
+      	List<UserEntity> listMember = new ArrayList<UserEntity>();
+      	switch (roles) {
+		case "USER":
+			for (UserEntity userEntity : listUsers) {
+				
+				if(userEntity.getId()==id) {
+					
+					listMember.add(userEntity);
+				}
+			}
+			req.setAttribute("listuser", listMember);
+			System.out.println(listMember);
+			break;
+
+		default:
+			req.setAttribute("listuser", listUsers);
+			break;
+		}
+    	
+    	req.getRequestDispatcher("user-table.jsp").forward(req, resp);
+	}
+    
     public void addUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	List<RoleEntity> listRoles = roles.listRoles();
     	

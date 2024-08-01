@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import crm.validation.Validation;
+import crm.dto.LoginDTO;
 import crm.enumurl.EnumUrlParam;
 import crm.service.LoginService;
 import crm.service.LoginServiceImp;
@@ -31,13 +32,21 @@ public class LoginController extends HttpServlet{
  	boolean checkEmail = validation.checkNullOrEmpty(emai, "email");
  	boolean checkPassWord = validation.checkNullOrEmpty(passWord, "passWord");
  	if(checkEmail && checkPassWord) {
+ 		LoginDTO loginDTO = login.checkLogIn(emai, passWord);
  		
  		
- 		
- 		if(login.checkLogIn(emai, passWord)) {
+ 		if(loginDTO != null) {
  			Cookie cookie = new Cookie("login", "true");
+ 			
+ 			Cookie cookie2 = new Cookie("role", loginDTO.nameRole());
+ 			
+ 			Cookie cookie3 = new Cookie("id", Integer.toString(loginDTO.id()));
  			cookie.setMaxAge(3000);
+ 			cookie2.setMaxAge(3000);
+ 			cookie3.setMaxAge(3000);
+ 			resp.addCookie(cookie3);
  	 		resp.addCookie(cookie);
+ 	 		resp.addCookie(cookie2);
  			resp.sendRedirect(context+EnumUrlParam.ADD_USER.getEndpoint());
  		}
  	}

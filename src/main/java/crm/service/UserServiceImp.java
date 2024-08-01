@@ -2,7 +2,7 @@ package crm.service;
 
 import java.util.List;
 
-
+import crm.dto.LeaderDTO;
 import crm.dto.UserTaskDTO;
 import crm.entity.UserDetail;
 import crm.entity.UserEntity;
@@ -17,4 +17,5 @@ public interface UserServiceImp {
      
 	 List<UserTaskDTO> checkStatus(UserDetail users, int found);
 	 boolean checkEmail(List<UserEntity> listUsers,String email);
+	 List<LeaderDTO> listLeader();
 }

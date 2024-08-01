@@ -14,4 +14,5 @@ public interface ProjectServiceImp {
       boolean updateProject(ProjectEntity projectEntity);
       List<ProjectTaskDTO> getProjectDetailById(int id);
       List<ProjectTaskDTO> checkStatus(List<ProjectTaskDTO> listTasks,int found);
+      List<Integer> getProjectByIdLeader(int id);
 }
