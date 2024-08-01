@@ -67,6 +67,9 @@ public class AuthenticationFilter implements Filter{
                     case USER_DETAIL:
                     	chain.doFilter(request, response);
                     	break;
+                    case LOGOUT:
+                    	chain.doFilter(request, response);
+                    	break;
 					default:
 						reqs.sendRedirect(context+EnumUrlParam.ERROR.getEndpoint());
 						break;
@@ -104,10 +107,15 @@ public class AuthenticationFilter implements Filter{
                     case DELETE_TASK:
                     	chain.doFilter(request, response);
                     	break;
+                    case LOGOUT:
+                    	chain.doFilter(request, response);
+                    	break;
 					default:
 						reqs.sendRedirect(context+EnumUrlParam.ERROR.getEndpoint());
 						break;
 					}
+                	break;
+                	
 				default:
 					chain.doFilter(request, response);
 					break;

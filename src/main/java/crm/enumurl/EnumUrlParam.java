@@ -21,7 +21,8 @@ public enum EnumUrlParam {
 	 DELETE_ROLE("/delete-roles"),
 	 ERROR("/error-403"),
 	 LOGIN("/login"),
-	 PROJECTBYID("/project-id");
+	 PROJECTBYID("/project-id"),
+	 LOGOUT("/log-out");
 	
     private String endpoint;
 

@@ -123,6 +123,13 @@ public class UserController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        req.setCharacterEncoding("UTF-8");
+       int idRole = 0;
+       List<RoleEntity> listRoles = roles.listRoles();
+       for (RoleEntity roleEntity : listRoles) {
+		     if(roleEntity.getName().equals("USER")) {
+		    	 idRole = roleEntity.getId();
+		     }
+	}
        String firstName = req.getParameter("firstName");
  	   String lastName = req.getParameter("lastName");
  	   String email = req.getParameter("email");
@@ -149,9 +156,9 @@ public class UserController extends HttpServlet{
 				break;
 			}
  	   }else {
- 		  int roleId = Integer.parseInt(req.getParameter("role"));
+ 		
  	 	   RoleEntity roles = new RoleEntity();
- 		 roles.setId(roleId);
+ 		 roles.setId(idRole);
 		UserEntity users = new UserEntity(0, firstName, lastName, passWord, email, phone, roles);
 		switch (checkPath) {
 		case ADD_USER:
